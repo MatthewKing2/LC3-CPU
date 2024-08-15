@@ -24,7 +24,6 @@ module processing_unit (
     input   wire    [4:0]       i_IR_4_0,   // Immediate 5
     // Bus Control and I/O
     input   wire    [15: 0]     i_bus,      // Bus for loading values into registers
-    input   wire                i_GateALU,  // Decides if ALU output goes onto bus
     output  wire    [15: 0]     o_ToBus);   // Output to the bus (top mod gates it)
 
 
@@ -48,7 +47,7 @@ module processing_unit (
     // SR2 Mux
     // Note: Determines an input for the ALU (either SR2 from reg file output, or a sign 
     //       extended immediate 5 value)
-    reg    [15:0]  w_SR2MUX_Out;
+    reg     [15:0]  w_SR2MUX_Out;
     wire    [15:0]  w_SR2_Out;              // SR2 Output from Reg File
     wire    [15:0]  w_Imm5_SEXT;            // Sign Extended Immediate 5 value
         assign w_Imm5_SEXT = (i_IR_4_0[4]) ? {11'b11111111111, i_IR_4_0} : {11'b00000000000, i_IR_4_0};
@@ -65,9 +64,9 @@ module processing_unit (
     reg    [2:0]   w_DRMUX_Out;
     always @(*) begin // @ any "input" change, update value
         case(i_DRMUX)
-            2'b00: w_SR1MUX_Out = i_IR_11_9;    // Bits [11:9] of IR, represents DR address
-            2'b01: w_SR1MUX_Out = 3'b110;       // R6 
-            2'b10: w_SR1MUX_Out = 3'b111;       // R7
+            2'b00: w_DRMUX_Out = i_IR_11_9 /* 3'b001*/;    // Bits [11:9] of IR, represents DR address
+            2'b01: w_DRMUX_Out = 3'b110;       // R6 
+            2'b10: w_DRMUX_Out = 3'b111;       // R7
             default: w_DRMUX_Out = 3'b000;      // Defaults to 0
         endcase
     end

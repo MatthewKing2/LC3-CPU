@@ -1,3 +1,7 @@
+*.vcd
+*.out
+*.gtkw
+apio.ini
 hardware*
 abc.history
 .sconsign.dblite

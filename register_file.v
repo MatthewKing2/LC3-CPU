@@ -37,6 +37,9 @@ module register_file #(
     always @(posedge i_CLK) begin
         o_SR1 <= memory[i_SR1_Addr];
         o_SR2 <= memory[i_SR2_Addr];
+    end
+
+    always @(posedge i_CLK, i_bus) begin
         if(i_LD_REG)
             memory[i_DR_Addr] <= i_bus;
     end
