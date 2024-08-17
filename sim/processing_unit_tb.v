@@ -23,7 +23,7 @@ module processing_unit_tb();    // Note no IO
         // 12MHz = 1/(2*Xns) where 2Xns is 1 clk cycle
         // 12*10^6 = 1/(2*X * 10^-9)
         // X = 41.67
-        #41.667
+        #40
 
         // Toggle clock line 
         clk = ~clk;
@@ -69,12 +69,12 @@ module processing_unit_tb();    // Note no IO
 
 
     initial begin
-        #(11*41.667)   
+        #(11*40)   
         // Set up 
         // r_DRMUX       <= 2'b11;
         r_Gate_ALU      <= 0;
 
-        #(2*41.667)   
+        #(2*40)   
 
         // Test 1: Write Value to a DR  -- YES!
         //-----------------------------------------------------
@@ -83,26 +83,26 @@ module processing_unit_tb();    // Note no IO
         r_bus_testing   <= 16'h000F;                    // Write F
         r_LD_REG        <= 1'b1;                        // Load the DR
 
-        #(2*41.667)   
+        #(2*40)   
         r_IR            <= 16'h0000;        
         r_DRMUX         <= 2'b11;
         r_bus_testing   <= 16'h0000;
         r_LD_REG        <= 1'b0;
-        #(6*41.667)   
+        #(6*40)   
 
 
-        // // Test 2: Read Value from SR1 (pass through ALU) -- Yes 
-        // //-----------------------------------------------------
-        // r_SR1_Addr  <= 2'b01;                   // Use IR[8:6] as address for SR1 Output register
-        // r_IR        <= 16'b0000000111000000;    // SR1 Out = R7
-        // r_ALUK      <= 2'b11;                   // Pass A (SR1 Out)
+        // Test 2: Read Value from SR1 (pass through ALU) -- Yes 
+        //-----------------------------------------------------
+        r_SR1_Addr  <= 2'b01;                   // Use IR[8:6] as address for SR1 Output register
+        r_IR        <= 16'b0000000111000000;    // SR1 Out = R7
+        r_ALUK      <= 2'b11;                   // Pass A (SR1 Out)
 
-        // #(2*41.667)
-        // r_IR        <= 16'h0000;        
-        // r_SR1_Addr  <= 2'b00;
-        // r_ALUK      <= 2'b00;
+        #(2*40)
+        r_IR        <= 16'h0000;        
+        r_SR1_Addr  <= 2'b00;
+        r_ALUK      <= 2'b00;
 
-        // // #(6*41.667)   
+        #(6*40)   
 
 
         // Test 3: Add Values from R1 and R2 (and output to bus) -- Yes
@@ -115,7 +115,7 @@ module processing_unit_tb();    // Note no IO
         r_bus_testing   <= 16'h0003;                        // Write 3
         r_LD_REG        <= 1'b1;                            // Write to Reg file
 
-        #(2*41.667)   // Wait 1clk
+        #(2*40)   // Wait 1clk
 
         // Load R2 with 4
         r_DRMUX         <= 2'b00;                           // Means Dr = IR[11:9]
@@ -123,7 +123,7 @@ module processing_unit_tb();    // Note no IO
         r_bus_testing   <= 16'h0004;                        // Write 4
         r_LD_REG        <= 1'b1;                            // Write to Reg file
 
-        #(2*41.667)   // Wait 1clk
+        #(2*40)   // Wait 1clk
 
         // Send R1 and R2 to ALU to be added
         r_LD_REG    <= 1'b0;                        // Don't write to register file
@@ -133,7 +133,7 @@ module processing_unit_tb();    // Note no IO
             // IR[5] = 0 meaning Pass SR2OUt through SR2 Mux
         r_ALUK      <= 2'b00;   // Means add
 
-        #(2*41.667)   // Wait 1clk 
+        #(2*40)   // Wait 1clk 
 
         // Reset signals
         r_LD_REG    <= 1'b0;   
@@ -142,14 +142,14 @@ module processing_unit_tb();    // Note no IO
         r_ALUK      <= 2'b11;   // Wrong sinal for next test 
 
         // Note: it is acting as expected 
-            // 3 and 4 are written on the neg clk edge 
-            // 3 and 4 are sent to the ALU on the neg clk edge 
-            // 3+4 = 7 appears on the ALU out bus 
-            // However, when ALU changes to 11, ALU out bus becomes 3 (pass A)
-            // Therefore, the 7 only appears for 1/2 clk cycle
-            // This may or may not work
+        //     3 and 4 are written on the neg clk edge 
+        //     3 and 4 are sent to the ALU on the neg clk edge 
+        //     3+4 = 7 appears on the ALU out bus 
+        //     However, when ALU changes to 11, ALU out bus becomes 3 (pass A)
+        //     Therefore, the 7 only appears for 1/2 clk cycle
+        //     This may or may not work
         
-        #(6*41.667)   
+        // #(6*40)   
 
         // Test 4: Addition -- Yes and No (failed RX <- RX + imm5)
         //-----------------------------------------------------
@@ -167,7 +167,7 @@ module processing_unit_tb();    // Note no IO
         //      on the negative edge of the clk cycle. This would prevent 
         //      the new R1 value from going through the ALU and infinatly
         //      updateing itself
-        #(2*41.667)   
+        #(2*40)   
         // Control Signals
         r_Gate_ALU  <= 1'b1;                        // Let Processing unit write to bus (and therefore be its own input)
         r_ALUK      <= 2'b00;                       // Add 
@@ -175,26 +175,25 @@ module processing_unit_tb();    // Note no IO
         r_SR1_Addr  <= 2'b01;                       // IR[8:6] = address for SR1 Output register
         r_DRMUX     <= 2'b00;                       // Use IR[11:9] as address for DR  
         // Datapath Stuff
-        //                 add|DR|SR1|0|SR2
+                         //add|DR|SR1|0|SR2
         r_IR        <= 16'b0001011001000010;        // R3 <- R1 + R2 
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001100001000011;        // R4 <- R1 + R3 
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001011100000011;        // R3 <- R4 + R3 
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001111100000011;        // R7 <- R4 + R3 
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001100100000111;        // R4 <- R4 + R7 
-        //                 add|DR|SR1|0|SR2
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001000010101000;        // R0 <- R2 + 8
-        #(2*41.667)   
+        #(2*40)   
         r_IR        <= 16'b0001111010100011;        // R7 <- R2 + 3
-        #(2*41.667)   
-        r_IR        <= 16'b0001001001101000;        // R1 <- R1 + 8 < ---- Issue here 
+        #(2*40)   
+        r_IR        <= 16'b0001001001101000;        // R1 <- R1 + 8 < ---- No longer an Issue here!!!!
 
         // Rest Singals
-        #(2*41.667)   
+        #(2*40)   
         r_Gate_ALU  <= 1'b0;    
         r_ALUK      <= 2'b11;   
         r_LD_REG    <= 1'b0;    
@@ -202,7 +201,7 @@ module processing_unit_tb();    // Note no IO
         r_DRMUX     <= 2'b00;  
         r_IR        <= 16'h0000;
 
-        // #(6*41.667)   
+        // #(6*40)   
 
     end // Note: the last line can not be a #wait amount otherwise the program kys
     //------------------------------------------------------------------------------

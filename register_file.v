@@ -34,14 +34,16 @@ module register_file #(
     //------------------------------------------------------------------------------
     // Read/Write Operations
     //------------------------------------------------------------------------------
-    always @(posedge i_CLK) begin
+    always @(*) begin // Change values when control signals change
         o_SR1 <= memory[i_SR1_Addr];
         o_SR2 <= memory[i_SR2_Addr];
     end
 
-    always @(posedge i_CLK, i_bus) begin
+    always @(posedge i_CLK) begin
         if(i_LD_REG)
             memory[i_DR_Addr] <= i_bus;
+        // Note: even though i_LD_REG will change on the posedge of the clock
+        // This logic will use the "old" value. (in theory)
     end
 
     //------------------------------------------------------------------------------
