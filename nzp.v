@@ -1,0 +1,43 @@
+
+//------------------------------------------------------------------------------
+// Module: NZP Condition Codes
+// Logic: Clocked and Combinational
+// Note: The control signals are combinational, but NZP IS a register, and is 
+//       therefore clocked on the positive edge of the clock
+//------------------------------------------------------------------------------
+
+module nzp ( 
+    input   wire                i_CLK,
+    // From Control Store:
+    input   wire                i_LD_CC_Control,
+    // From Data Path:
+    input   wire    [15:0]      i_Bus,
+    // Ouptput to Control Store
+    output  wire    [2: 0]      o_NZP // Goes to BUS and Addr1Mux
+    );
+
+
+    // The NZP Register
+    // --------------------------------------------------
+    reg [2:0] r_NZP
+    assign o_NZP = r_NZP;
+
+    always @ (posedge i_CLK) begin
+        if(i_LD_CC_Control)
+            r_NZP <= w_Logic;
+    end
+    // --------------------------------------------------
+
+
+    // Condition Codes Logic 
+    // --------------------------------------------------
+    wire [2:0] w_Logic;
+
+    always @(*) begin   // @ any "input" change, update value
+        w_Logic[0] = (i_Bus[15] == 1'b1);                           // N if MSB is a 1 (2's compliment)
+        w_Logic[1] = (i_Bus == 16'h0000);                           // Z if the entire value is 0
+        w_Logic[2] = (i_Bus[15] == 0'b0 && i_Bus != 16'b0000);      // P if MSB is a 0 (2's compliment)
+    end
+    // ----------------------------------------------------
+
+endmodule
