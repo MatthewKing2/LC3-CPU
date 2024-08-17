@@ -43,7 +43,7 @@ module pc (
     assign w_PC_Plus1 = r_PC + 1;
 
     wire [15:0] w_PC_Mux_Out;
-    (* parallel_case *) // Treat MUX as mutally exclusive 
+    (* parallel_case *) // Treat cases as mutally exclusive 
     always @(*) begin   // @ any "input" change, update value
         case (i_PCMUX_Control)
             PC1:    w_PC_Mux_Out = w_PC_Plus1;
