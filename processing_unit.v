@@ -24,6 +24,7 @@ module processing_unit (
     input   wire    [4:0]       i_IR_4_0,   // Immediate 5
     // Bus Control and I/O
     input   wire    [15: 0]     i_bus,      // Bus for loading values into registers
+    output  wire    [15: 0]     o_SR1_Out;  // Output to the Adder Mux Module
     output  wire    [15: 0]     o_ToBus);   // Output to the bus (top mod gates it)
 
 
@@ -76,6 +77,7 @@ module processing_unit (
     //-------------------------------------------------------
 
     wire [15:0] w_SR1_Out; // Conects SR1 Out (from reg file) to ALU
+    assign o_SR1_Out = w_SR1_Out;   // SR1 Out is also used by Adder Module
 
     register_file #(.INIT_FILE())
         register_file_module(
