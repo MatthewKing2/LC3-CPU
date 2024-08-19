@@ -8,6 +8,7 @@
 
 module pc ( 
     input   wire                i_CLK,
+    input   wire                i_Reset,
     // From Control Store:
     input   wire                i_LD_PC_Control,
     input   wire    [1: 0]      i_PCMUX_Control,
@@ -26,8 +27,14 @@ module pc (
     reg [15:0] r_PC;
     assign o_PC = r_PC;
 
-    always @ (posedge i_CLK) begin
-        if(i_LD_PC_Control)
+    // Reset is only set during the low part of the clock singal 
+    // It is phase shifted by 1/2 clock cycle 
+    // Therefore, the PC should change on the positive edge of the reset
+    // Which is the negative edge of the clock cyle
+    always @ (posedge i_CLK, posedge i_Reset) begin
+        if(i_Reset)
+            r_PC <= 16'h0000;   // Starting address for instructions
+        else if(i_LD_PC_Control)
             r_PC <= w_PC_Mux_Out;
     end
     // --------------------------------------------------

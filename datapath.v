@@ -5,7 +5,10 @@
 // Logic: Clocked and Combinational
 //------------------------------------------------------------------------------
 
-module datapath (input CLK /* from pcf */);
+module datapath (
+    input wire i_CLK, 
+    input wire i_Reset
+    );
 
     // Init wires to connect modules
     wire [15:0] w_CPU_Bus;
@@ -14,6 +17,7 @@ module datapath (input CLK /* from pcf */);
     wire [2: 0] w_NZP_Out;
     wire [15:0] w_SR1_Out;
     wire [15:0] w_MarMux_Out;
+    wire [15:0] w_MDR_Out;
     wire [15:0] w_ProcessingUnit_Out;
 
     // Control what is on CPU bus (gates) 
@@ -21,12 +25,12 @@ module datapath (input CLK /* from pcf */);
                         (w_GatePC_Control)      ? w_PC_Out :
                         (w_GateALU_Control)     ? w_ProcessingUnit_Out :
                         (w_GateMarMux_Control)  ? w_MarMux_Out :
-                        (w_GateMDR_Control)     ? 16'hFFFF : // Havent set up memeory yet
+                        (w_GateMDR_Control)     ? w_MDR_Out : // Havent set up memeory yet
                         16'hFFFF;   // Default to 65535 or -1
 
     // IR is only logic without its own module 
-    reg [16:0] r_IR;
-    always @(posedge CLK) begin
+    reg [15:0] r_IR;
+    always @(posedge i_CLK) begin
         if(w_LD_IR_Control)
             r_IR <= w_CPU_Bus;
     end
@@ -38,7 +42,8 @@ module datapath (input CLK /* from pcf */);
     // Processing Unit (Register File + ALU)
     // -------------------------------------------------- 
     processing_unit ProcessingUnit(
-        .i_CLK(CLK),
+        .i_CLK(i_CLK),
+        .i_Reset(i_Reset),
         .i_LD_REG(w_LD_REG_Control),                // If value should be loaded into DR
         .i_ALUK(w_ALUK_Control),                  // What ALU operation to do
         .i_IR_11_9(r_IR[11:9]),     // For DR Mux
@@ -56,11 +61,22 @@ module datapath (input CLK /* from pcf */);
 
     // Memory (pending)
     // -------------------------------------------------- 
+    memory_control MemoryControler(
+        .i_CLK(i_CLK), 
+        .i_LD_MDR(w_LD_MDR_Control),
+        .i_LD_MAR(w_LD_MAR_Control),
+        .i_RW(w_R_W_Control),
+        .i_MIO_EN(w_MIO_EN_Control),
+        .i_Bus(w_CPU_Bus),
+        .o_Bus(w_MDR_Out),
+        .o_Ready_Bit(w_Ready_Bit)
+    );
 
     // PC 
     // -------------------------------------------------- 
     pc PC(
-        .i_CLK(CLK),
+        .i_CLK(i_CLK),
+        .i_Reset(i_Reset),
         .i_LD_PC_Control(w_LD_PC_Control),
         .i_PCMUX_Control(w_PCMUX_Control),
         .i_Bus(w_CPU_Bus),
@@ -71,7 +87,7 @@ module datapath (input CLK /* from pcf */);
     // NZP
     // -------------------------------------------------- 
     nzp NZPConditionCodes(
-        .i_CLK(CLK),
+        .i_CLK(i_CLK),
         .i_LD_CC_Control(w_LD_CC_Control),
         .i_Bus(w_CPU_Bus),
         .o_NZP(w_NZP_Out)    // Goes to Control Logic
@@ -100,11 +116,12 @@ module datapath (input CLK /* from pcf */);
     // Control Logic
     // -------------------------------------------------- 
     control_logic ControlLogic (
-        .i_CLK(CLK),
+        .i_CLK(i_CLK),
         // From Datapath: 
         .i_IR(r_IR),
-        .i_Ready_Bit(w_Ready_Bit_Control), 
-        .i_NZP(w_NZP_Control),
+        .i_Ready_Bit(w_Ready_Bit), 
+        .i_NZP(w_NZP_Out),
+        .i_Reset(i_Reset),
         // Load Registers
         .o_LD_MAR(w_LD_MAR_Control), 
         .o_LD_MDR(w_LD_MDR_Control), 
@@ -151,7 +168,7 @@ module datapath (input CLK /* from pcf */);
 
     // Control Signal wires to connect modules to the control store
 
-    wire w_Ready_Bit_Control;
+    wire w_Ready_Bit;
     wire w_NZ_Control;
     // Load Registers
     wire w_LD_MAR_Control;

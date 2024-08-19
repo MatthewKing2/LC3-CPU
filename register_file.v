@@ -10,6 +10,7 @@
 module register_file #( 
     parameter       INIT_FILE   = "")(   // Default to NULL (initalizes no values into memory)
     input   wire                i_CLK,
+    input   wire                i_Reset,
     // From Control Store:
     input   wire                i_LD_REG,
     // From Register Muxs
@@ -45,6 +46,13 @@ module register_file #(
         // Note: even though i_LD_REG will change on the posedge of the clock
         // This logic will use the "old" value. (in theory)
     end
+
+    // Reset all values to 0 when reset line
+    integer i;
+    always @(posedge i_Reset) begin
+        for (i = 0; i < NumElements; i = i + 1)
+            memory[i] <= 16'b0;
+    end 
 
     //------------------------------------------------------------------------------
     // Memory Initialization

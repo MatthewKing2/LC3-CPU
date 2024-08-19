@@ -9,6 +9,7 @@
 
 module processing_unit ( 
     input   wire                i_CLK,
+    input   wire                i_Reset,
     // Inputs for Reg File 
     input   wire                i_LD_REG,   // If value should be loaded into DR
     // Inputs for ALU 
@@ -82,6 +83,7 @@ module processing_unit (
     register_file #(.INIT_FILE())
         register_file_module(
         .i_CLK(i_CLK),
+        .i_Reset(i_Reset),
         .i_LD_REG(i_LD_REG),
         .i_DR_Addr(w_DRMUX_Out),      // Desintation Register Address
         .i_SR1_Addr(w_SR1MUX_Out),     // Source Register #1 Address

@@ -13,7 +13,7 @@ module memory_control (
 
     // Output 
     output wire [15:0]  o_Bus,
-    output wire         o_Ready_Bit,
+    output wire         o_Ready_Bit
     );
 
     // Output of memeory wire
@@ -48,9 +48,9 @@ module memory_control (
 
     // Init Sub Module 
     memory #(
-        .INIT_FILE(""),
+        .INIT_FILE("programs/test1.txt"),
         .AddrBusSize(16),    
-        .NumElements(512),  
+        .NumElements(64),  
         .ElementSize(16)
         ) Memory(   
         .i_CLK(i_CLK),
@@ -59,7 +59,7 @@ module memory_control (
         .i_write_addr(r_MAR),
         .i_read_addr(r_MAR),
         .i_write_data(r_MDR),
-        .o_Ready_Bit(o_Ready_Bit)
+        .o_Ready_Bit(o_Ready_Bit),
         .o_read_data(w_Memory_Out)
     );
 
