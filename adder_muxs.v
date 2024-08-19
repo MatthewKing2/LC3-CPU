@@ -44,15 +44,12 @@ module adder_muxs (
     parameter PCoffset11    = 2'b11;
 
     wire [15:0] w_Addr2_Mux_Out;
-    (* parallel_case *) // Treat cases as mutally exclusive 
-    always @(*) begin   // @ any "input" change, update value
-        case (i_Addr2MuxControl)
-            ZERO:       w_Addr2_Mux_Out = 16'h0000;
-            offset6:    w_Addr2_Mux_Out = w_IR_5_0_SEXT;
-            PCoffset9:  w_Addr2_Mux_Out = w_IR_8_0_SEXT;
-            PCoffset11: w_Addr2_Mux_Out = w_IR_10_0_SEXT; 
-        endcase 
-    end
+    assign w_Addr2_Mux_Out =    (i_Addr2MuxControl == ZERO)         ? 16'h0000 : 
+                                (i_Addr2MuxControl == offset6)      ? w_IR_5_0_SEXT : 
+                                (i_Addr2MuxControl == PCoffset9)    ? w_IR_8_0_SEXT : 
+                                (i_Addr2MuxControl == PCoffset11)   ? w_IR_10_0_SEXT : 
+                                16'hFFFF; // Never reached
+
     // ----------------------------------------------------
 
 

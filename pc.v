@@ -21,7 +21,9 @@ module pc (
 
     // The PC Register
     // --------------------------------------------------
-    reg [15:0] r_PC
+    wire [15:0] w_PC_Mux_Out;   // Output of PC Mux
+
+    reg [15:0] r_PC;
     assign o_PC = r_PC;
 
     always @ (posedge i_CLK) begin
@@ -33,27 +35,19 @@ module pc (
 
     // PC Mux 
     // --------------------------------------------------
-    parameter PC1   = 2'b00;    
-    parameter BUS   = 2'b01;
-    parameter ADDER = 2'b10;
-    parameter CATCH = 2'b11; // Catch case (should never happen)
-
     // Set up PC+1 value (input)
     wire [15:0] w_PC_Plus1; 
     assign w_PC_Plus1 = r_PC + 1;
 
-    wire [15:0] w_PC_Mux_Out;
-    (* parallel_case *) // Treat cases as mutally exclusive 
-    always @(*) begin   // @ any "input" change, update value
-        case (i_PCMUX_Control)
-            PC1:    w_PC_Mux_Out = w_PC_Plus1;
-            BUS:    w_PC_Mux_Out = i_Bus;
-            ADDER:  w_PC_Mux_Out = i_Addr;
-            CATCH:  w_PC_Mux_Out = 16'h0000;    // Catch all = 0
-        endcase 
-    end
-    // ----------------------------------------------------
+    parameter PC1   = 2'b00;    
+    parameter BUS   = 2'b01;
+    parameter ADDER = 2'b10;
 
+    assign w_PC_Mux_Out =   (i_PCMUX_Control == PC1)    ? w_PC_Plus1 :
+                            (i_PCMUX_Control == BUS)    ? i_Bus :
+                            (i_PCMUX_Control == ADDER)  ? i_Addr :
+                            16'h0000;
+    // ----------------------------------------------------
 
 endmodule
 

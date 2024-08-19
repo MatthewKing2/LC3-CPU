@@ -17,14 +17,14 @@ module processing_unit (
     input   wire    [2:0]       i_IR_11_9,  // For DR Mux
     input   wire    [2:0]       i_IR_8_6,   // For DR Mux and SR1 Mux
     input   wire    [2:0]       i_IR_2_0,   // For SR2 
-    input   wire    [2:0]       i_SR1MUX,   // Mux select for SR1
-    input   wire    [2:0]       i_DRMUX,    // Mux select for DR 
+    input   wire    [1:0]       i_SR1MUX,   // Mux select for SR1
+    input   wire    [1:0]       i_DRMUX,    // Mux select for DR 
     // Inputs for SR2 Mux
     input   wire                i_IR_5,     // Control for Mux
     input   wire    [4:0]       i_IR_4_0,   // Immediate 5
     // Bus Control and I/O
     input   wire    [15: 0]     i_bus,      // Bus for loading values into registers
-    output  wire    [15: 0]     o_SR1_Out;  // Output to the Adder Mux Module
+    output  wire    [15: 0]     o_SR1_Out,  // Output to the Adder Mux Module
     output  wire    [15: 0]     o_ToBus);   // Output to the bus (top mod gates it)
 
 

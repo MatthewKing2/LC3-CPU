@@ -32,8 +32,6 @@ module datapath (input CLK /* from pcf */);
     end
 
 
-
-
     // Init Sub-Modules 
     // ************************************************************************************
 
@@ -51,7 +49,7 @@ module datapath (input CLK /* from pcf */);
         .i_IR_5(r_IR[5]),           // Control for Mux
         .i_IR_4_0(r_IR[4:0]),       // Immediate 5
         .i_bus(w_CPU_Bus),                   // Bus for loading values into registers
-        .o_SR1_Out(w_SR1_Out);               // Output to the Adder Mux Module
+        .o_SR1_Out(w_SR1_Out),               // Output to the Adder Mux Module
         .o_ToBus(w_ProcessingUnit_Out)                  // Output to the bus (top mod gates it)
     );
 
@@ -151,8 +149,7 @@ module datapath (input CLK /* from pcf */);
     // ************************************************************************************
 
 
-    // Control Signal wires 
-
+    // Control Signal wires to connect modules to the control store
 
     wire w_Ready_Bit_Control;
     wire w_NZ_Control;
@@ -178,19 +175,19 @@ module datapath (input CLK /* from pcf */);
     wire w_GatePC_minus1_Control;    // Not in use yet 
     wire w_GateSRP_Control;          // Not in use yet 
     wire w_GateSP_Control;           // Not in use yet 
-    // Mux Control Signals
-    wire w_PCMUX_Control; 
-    wire w_DRMUX_Control; 
-    wire w_SR1MUX_Control; 
-    wire w_ADDR1MUX_Control; 
-    wire w_ADDR2MUX_Control; 
-    wire w_SPMUX_Control;           // Not in use yet
-    wire w_MARMUX_Control; 
-    wire w_TableMUX_Control;        // Not in use yet
-    wire w_VectorMUX_Control;       // Not in use yet 
-    wire w_PSRMUX_Control;          // Not in use yet 
+    wire    [1:0]   w_PCMUX_Control; 
+    wire    [1:0]   w_DRMUX_Control; 
+    wire    [1:0]   w_SR1MUX_Control; 
+    wire    [0:0]   w_ADDR1MUX_Control; 
+    wire    [1:0]   w_ADDR2MUX_Control; 
+    wire    [1:0]   w_SPMUX_Control;    // Not in use yet
+    wire    [0:0]   w_MARMUX_Control; 
+    wire    [0:0]   w_TableMUX_Control; // Not in use yet
+    wire    [1:0]   w_VectorMUX_Control;// Not in use yet 
+    wire    [0:0]   w_PSRMUX_Control;   // Not in use yet 
+
     // ALU Control 
-    wire w_ALUK_Control; 
+    wire    [1:0]   w_ALUK_Control; 
     // Memeory Control 
     wire w_MIO_EN_Control; 
     wire w_R_W_Control; 

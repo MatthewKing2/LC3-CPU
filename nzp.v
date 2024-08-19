@@ -19,7 +19,7 @@ module nzp (
 
     // The NZP Register
     // --------------------------------------------------
-    reg [2:0] r_NZP
+    reg [2:0] r_NZP;
     assign o_NZP = r_NZP;
 
     always @ (posedge i_CLK) begin
@@ -33,11 +33,10 @@ module nzp (
     // --------------------------------------------------
     wire [2:0] w_Logic;
 
-    always @(*) begin   // @ any "input" change, update value
-        w_Logic[0] = (i_Bus[15] == 1'b1);                           // N if MSB is a 1 (2's compliment)
-        w_Logic[1] = (i_Bus == 16'h0000);                           // Z if the entire value is 0
-        w_Logic[2] = (i_Bus[15] == 0'b0 && i_Bus != 16'b0000);      // P if MSB is a 0 (2's compliment)
-    end
+    assign w_Logic[0] = (i_Bus[15] == 1'b1) ? 1'b1 : 1'b0;                          // N if MSB is a 1 (2's compliment)
+    assign w_Logic[1] = (i_Bus == 16'h0000) ? 1'b1 : 1'b0;                          // Z if the entire value is 0
+    assign w_Logic[2] = (i_Bus[15] == 1'b0 && i_Bus != 16'b0000) ? 1'b1: 1'b0;      // P if MSB is a 0 (2's compliment)
+
     // ----------------------------------------------------
 
 endmodule
