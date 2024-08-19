@@ -4,7 +4,8 @@
 //------------------------------------------------------------------------------
 
 module control_store #( 
-    parameter       INIT_FILE   = "",   // Default to NULL (initalizes no values into memory)
+    parameter       INIT_FILE   = "controlSingalGeneration/output.txt", 
+    // parameter       INIT_FILE   = "", 
     parameter       AddrBusSize = 6,
     parameter       NumElements = 64,
     parameter       ElementSize = 52)(   

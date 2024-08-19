@@ -13,6 +13,7 @@ module control_logic (
     input   wire    [15:0]                  i_IR,
     input   wire                            i_Ready_Bit, 
     input   wire    [2:0]                   i_NZP,
+    input   wire                            i_Reset,
     // Note: Missing Interupt, Prioirty, and Privilege inputs 
 
     // Control Singal Outputs
@@ -72,7 +73,8 @@ module control_logic (
     wire [5: 0] w_next_state_address;
 
     microsequencer MicroSeq (
-        .i_CLK(i_CLK);
+        .i_CLK(i_CLK),
+        .i_Reset(i_Reset),
         // From Control Store:
         .i_j_field(w_J_Field),
         .i_COND_bits(w_COND),
@@ -134,7 +136,7 @@ module control_logic (
     // Mux Control Signals
     assign o_PCMUX     = w_current_state[20:19];
     assign o_DRMUX     = w_current_state[18:17];
-    assign o_SR1MUX    = w_current_state[15:16];
+    assign o_SR1MUX    = w_current_state[16:15];
     assign o_ADDR1MUX  = w_current_state[14];
     assign o_ADDR2MUX  = w_current_state[13:12];
     assign o_SPMUX     = w_current_state[11:10];
