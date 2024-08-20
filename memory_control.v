@@ -48,7 +48,7 @@ module memory_control (
 
     // Init Sub Module 
     memory #(
-        .INIT_FILE("programs/test1.txt"),
+        .INIT_FILE("programs/output.txt"),
         .AddrBusSize(16),    
         .NumElements(64),  
         .ElementSize(16)

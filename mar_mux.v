@@ -30,6 +30,6 @@ module mar_mux (
     assign w_IR_ZEXT = {8'h00, i_IR_7_0};
 
     // Mar Mux
-    assign o_MarMux = (i_MarMuxControl) ? w_IR_ZEXT : i_Address;
+    assign o_MarMux = (i_MarMuxControl) ? i_Address : w_IR_ZEXT;
 
 endmodule

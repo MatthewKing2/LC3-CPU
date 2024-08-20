@@ -32,6 +32,7 @@ module memory #(
     //------------------------------------------------------------------------------
     // Read/Write Operations
     //------------------------------------------------------------------------------
+    reg delayed_ready_bit = 0;
     always @(posedge i_CLK) begin
         if(i_write_en) begin 
             memory[i_write_addr] <= i_write_data;
@@ -39,10 +40,16 @@ module memory #(
         end
         if(i_read_en) begin 
             o_read_data <= memory[i_read_addr];
-            o_Ready_Bit <= 1'b1; 
+            // o_Ready_Bit <= 1'b1; 
+            delayed_ready_bit <= 1'b1;
         end
         if(~i_read_en && ~i_write_en)
             o_Ready_Bit <= 1'b0; 
+        if(delayed_ready_bit) begin
+            delayed_ready_bit <= 1'b0;
+            o_Ready_Bit <= 1'b1; 
+        end
+
     end
 
     //------------------------------------------------------------------------------

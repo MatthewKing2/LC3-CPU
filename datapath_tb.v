@@ -7,7 +7,7 @@ module datapath_tb();
     // Storage elements 
     reg     clk = 0;
 
-    localparam  DURATION = 12000;
+    localparam  DURATION = 20000;
 
     always begin 
         #40
@@ -44,6 +44,7 @@ module datapath_tb();
 
 
     integer idx; // Use an integer for the loop counter
+    integer idx2; // Use an integer for the loop counter
 
     // Run and Output simulation to .vcd file 
     initial begin
@@ -55,6 +56,8 @@ module datapath_tb();
 
         for (idx = 0; idx < 8; idx = idx + 1) 
             $dumpvars(0, UUT.ProcessingUnit.register_file_module.memory[idx]); // Loop over the array
+        for (idx2 = 0; idx2 < 16; idx2 = idx2 + 1) 
+            $dumpvars(0, UUT.MemoryControler.Memory.memory[idx2]); // Loop over the array
 
         // Wait for sim to complete
         #(DURATION)
