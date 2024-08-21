@@ -48,9 +48,9 @@ module memory_control (
 
     // Init Sub Module 
     memory #(
-        .INIT_FILE("programs/output.txt"),
+        .INIT_FILE("programs/ActualAssembly/HexInstructions.txt"),
         .AddrBusSize(16),    
-        .NumElements(64),  
+        .NumElements(65535),  
         .ElementSize(16)
         ) Memory(   
         .i_CLK(i_CLK),

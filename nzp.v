@@ -31,11 +31,11 @@ module nzp (
 
     // Condition Codes Logic 
     // --------------------------------------------------
-    wire [2:0] w_Logic;
+    wire [2:0] w_Logic; // N=2, Z=1, P=0
 
-    assign w_Logic[0] = (i_Bus[15] == 1'b1) ? 1'b1 : 1'b0;                          // N if MSB is a 1 (2's compliment)
+    assign w_Logic[2] = (i_Bus[15] == 1'b1) ? 1'b1 : 1'b0;                          // N if MSB is a 1 (2's compliment)
     assign w_Logic[1] = (i_Bus == 16'h0000) ? 1'b1 : 1'b0;                          // Z if the entire value is 0
-    assign w_Logic[2] = (i_Bus[15] == 1'b0 && i_Bus != 16'b0000) ? 1'b1: 1'b0;      // P if MSB is a 0 (2's compliment)
+    assign w_Logic[0] = (i_Bus[15] == 1'b0 && i_Bus != 16'b0000) ? 1'b1: 1'b0;      // P if MSB is a 0 (2's compliment)
 
     // ----------------------------------------------------
 

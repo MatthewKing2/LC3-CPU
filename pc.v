@@ -33,7 +33,7 @@ module pc (
     // Which is the negative edge of the clock cyle
     always @ (posedge i_CLK, posedge i_Reset) begin
         if(i_Reset)
-            r_PC <= 16'h0000;   // Starting address for instructions
+            r_PC <= 16'h3000;   // Starting address for instructions
         else if(i_LD_PC_Control)
             r_PC <= w_PC_Mux_Out;
     end

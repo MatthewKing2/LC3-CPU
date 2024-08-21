@@ -31,9 +31,9 @@ module microsequencer (
     parameter BEN   = 3'b010;
     parameter R     = 3'b001;
     parameter IR11  = 3'b011;
-    wire      w_BEN = (i_IR_15_9[0] && i_NZP[0]) || 
-                      (i_IR_15_9[1] && i_NZP[1]) || 
-                      (i_IR_15_9[2] && i_NZP[2]);
+    wire      w_BEN = (i_IR_15_9[0] && i_NZP[0]) || // P
+                      (i_IR_15_9[1] && i_NZP[1]) || // Z
+                      (i_IR_15_9[2] && i_NZP[2]);   // N
 
 
     // Set up Branch Enable Register 
@@ -54,7 +54,7 @@ module microsequencer (
                              // (i_COND_bits == PSR15)      ?   {2'b00,    i_PSR_15,   3'b000}     | i_j_field:
                                 (i_COND_bits == BEN)        ?   {3'b000,   w_BEN_Reg,  2'b00}      | i_j_field: 
                                 (i_COND_bits == R)          ?   {4'b0000,  i_R_Bit,    1'b0}       | i_j_field:
-                             // (i_COND_bits == IR11)       ?   {5'b00000, i_IR_15_9[2]}           | i_j_field:
+                                (i_COND_bits == IR11)       ?   {5'b00000, i_IR_15_9[2]}           | i_j_field:
                                 i_j_field;  // Default Case
 
 endmodule
