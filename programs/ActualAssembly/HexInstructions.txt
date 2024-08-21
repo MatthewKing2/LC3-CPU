@@ -1,0 +1,168 @@
+@3000
+x3037	// ST R0, SSaveR0   // Start of Sort Subroutine
+x3237	// ST R1, SSaveR1
+x3437	// ST R2, SSaveR2
+x3637	// ST R3, SSaveR3
+x3837	// ST R4, SSaveR4
+x3A37	// ST R5, SSaveR5
+x3C37	// ST R6, SSaveR6
+x2038	// LD R0, N
+x6000	// LDR R0, R0, #0
+x2235	// LD R1, BaseAdr
+x6240	// LDR R1, R1, #0
+x54A0	// AND R2, R2, #0
+x9EBF	// NOT R7, R2
+x1FE1	// ADD R7, R7, #1
+x1FC0	// ADD R7, R7, R0
+x0C20	// BRnz DONE
+x56E0	// AND R3, R3, #0
+x16C2	// ADD R3, R3, R2
+x5920	// AND R4, R4, #0
+x1902	// ADD R4, R4, R2
+x2A2E	// LD R5, MaxNeg
+x9F3F	// NOT R7, R4
+x1FE1	// ADD R7, R7, #1
+x1E07	// ADD R7, R0, R7
+x0410	// BRz Skip2
+x1C44	// ADD R6, R1, R4
+x6D80	// LDR R6, R6, #0
+x2E25	// LD R7, StoreX
+x7DC0	// STR R6, R7, #0
+x2E24	// LD R7, StoreY
+x7BC0	// STR R5, R7, #0
+x4825	// JSR Compare
+x2E23	// LD R7, CompRet
+x6FC0	// LDR R7, R7, #0
+x0604	// BRzp Skip1
+x5B60	// AND R5, R5, #0
+x1BA0	// ADD R5, R6, #0
+x56E0	// AND R3, R3, #0
+x1644	// ADD R3, R1, R4
+x1921	// ADD R4, R4, #1
+x0FEC	// BRnzp Loop1
+x5DA0	// AND R6, R6, #0
+x1C42	// ADD R6, R1, R2
+x6F80	// LDR R7, R6, #0
+x7B80	// STR R5, R6, #0
+x7EC0	// STR R7, R3, #0
+x14A1	// ADD R2, R2, #1
+x0FDC	// BRnzp Loop2
+x2007	// LD R0, SSaveR0
+x2207	// LD R1, SSaveR1
+x2407	// LD R2, SSaveR2
+x2607	// LD R3, SSaveR3
+x2807	// LD R4, SSaveR4
+x2A07	// LD R5, SSaveR5
+x2C07	// LD R6, SSaveR6
+xF025	// HALT
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x3200   // Address of Base Address of Array = Address 150
+x3201   // Address of Number of elements in Array = Address 151 
+x3100   // StoreX
+x3101   // StoreY
+x8000   // MaxNeg
+x3102   // CompRet
+x3236   // ST R0, x2F47 // Start of Compare Subroutine
+x3436	// ST R2, SaveR2
+x3636	// ST R3, SaveR3
+x5260	// AND R1, R1, #0
+x54A0	// AND R2, R2, #0
+x56E0	// AND R3, R3, #0
+x2233	// LD R1, X
+x6240	// LDR R1, R1, #0
+x2432	// LD R2, Y
+x6480	// LDR R2, R2, #0
+x1660	// ADD R3, R1, #0
+x0205	// BRp XPlus
+x0801	// BRn XMinus
+x0400	// NOP
+x16A0	// ADD R3, R2, #0
+x0619	// BRzp P1
+x080D	// BRn XYnegXnegY
+x16A0	// ADD R3, R2, #0
+x0C19	// BRnz P2
+x0204	// BRp XYposXposY
+x16A0	// ADD R3, R2, #0
+x0213	// BRp P1
+x0815	// BRn P2
+x0417	// BRz P3
+x96BF	// NOT R3, R2
+x16E1	// ADD R3, R3, #1
+x1643	// ADD R3, R1, R3
+x080D	// BRn P1
+x020F	// BRp P2
+x0411	// BRz P3
+x96BF	// NOT R3, R2
+x16E1	// ADD R3, R3, #1
+x0804	// BRn YisMaxNeg
+x1643	// ADD R3, R1, R3
+x0806	// BRn P1
+x0208	// BRp P2
+x040A	// BRz P3
+x967F	// NOT R3, R1
+x16E1	// ADD R3, R3, #1
+x0807	// BRn P3
+x0603	// BRzp P2
+x56E0	// AND R3, R3, #0
+x16E1	// ADD R3, R3, #1
+x0E05	// BRnzp RETURN
+x56E0	// AND R3, R3, #0
+x16FF	// ADD R3, R3, #-1
+x0E02	// BRnzp RETURN
+x56E0	// AND R3, R3, #0
+x0E00	// NOP
+x220A	// LD R1, ST_ADR
+x7640	// STR R3, R1, #0
+x2203	// LD R1, SaveR1
+x2403	// LD R2, SaveR2
+x2603	// LD R3, SaveR3
+xC1C0	// RET
+x3250	// SaveR1 
+x0009	// SaveR2
+x0009	// SaveR3
+x3100	// Address of X
+x3101	// Address of Y 
+x3102	// Address of ST_ADR 
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000	// NOP
+x0000
+@3100   // Where X,Y, Who is bigger is stored
+x0000	
+x0000	
+x0000	
+@3200
+x3250   // Base Address of Array
+x000A	// Number of elements in Array
+@3250
+x0002   // 10 Element Array
+x0001
+x0004
+x0003
+x0006
+x0005
+x0008
+x0007
+x0009
+x0000

@@ -67,8 +67,8 @@ module processing_unit (
     always @(*) begin // @ any "input" change, update value
         case(i_DRMUX)
             2'b00: w_DRMUX_Out = i_IR_11_9 /* 3'b001*/;    // Bits [11:9] of IR, represents DR address
-            2'b01: w_DRMUX_Out = 3'b110;       // R6 
-            2'b10: w_DRMUX_Out = 3'b111;       // R7
+            2'b01: w_DRMUX_Out = 3'b111;       // R7 
+            2'b10: w_DRMUX_Out = 3'b110;       // R6
             default: w_DRMUX_Out = 3'b000;      // Defaults to 0
         endcase
     end

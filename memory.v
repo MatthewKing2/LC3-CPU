@@ -56,7 +56,7 @@ module memory #(
     // Memory Initialization
     //------------------------------------------------------------------------------
     initial if (INIT_FILE) begin
-        $readmemb(INIT_FILE, memory);
+        $readmemh(INIT_FILE, memory);
     end
 
 endmodule
