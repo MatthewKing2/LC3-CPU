@@ -2,8 +2,12 @@
 //------------------------------------------------------------------------------
 // Module: PC 
 // Logic: Clocked and Combinational
-// Note: The control signals are combinational, but PC IS a register, and is 
-//       therefore clocked on the positive edge of the clock
+// Description: The Program Counter (PC) holds the address of the next instruction 
+//              to be fetched and is updated during the instruction cycle. The PC 
+//              Mux (PCMUX) is a multiplexer that selects the source for updating 
+//              the PC, choosing between the incremented PC, a branch target 
+//              address, or an address from the global bus, depending on the 
+//              instruction being executed.
 //------------------------------------------------------------------------------
 
 module pc ( 
@@ -15,7 +19,7 @@ module pc (
     // From Data Path:
     input   wire    [15:0]      i_Bus,
     input   wire    [15:0]      i_Addr,
-    // Ouptput to Bus
+    // Output to Bus
     output  wire    [15:0]      o_PC // Goes to BUS and Addr1Mux
     );
 
@@ -27,10 +31,10 @@ module pc (
     reg [15:0] r_PC;
     assign o_PC = r_PC;
 
-    // Reset is only set during the low part of the clock singal 
+    // Reset is only set during the low part of the clock signal
     // It is phase shifted by 1/2 clock cycle 
     // Therefore, the PC should change on the positive edge of the reset
-    // Which is the negative edge of the clock cyle
+    // Which is the negative edge of the clock cycle
     always @ (posedge i_CLK, posedge i_Reset) begin
         if(i_Reset)
             r_PC <= 16'h3000;   // Starting address for instructions

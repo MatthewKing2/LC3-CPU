@@ -1,20 +1,21 @@
 
 //------------------------------------------------------------------------------
 // Module: register_file
-// Note: This is clocked logic, but depends on the control store being acesses first
-//       for this reason, it is not implimted as block ram (b/c the control store is)
-//       This is implimted as distributed ram by the sythesis tool.
-// Note: May want to test unclocked (b/c it may not need to be, but could have erros)
+// Description: A set of registers (R0 to R7) in the LC-3 that store data and provide 
+//              input values for the ALU during operations.
+// Note: Writing happens on the positive clock edge, but reading is not clocked.
+//       Values can be read at any time - this is a key feature of this microarchitecture
+//       that allows for the reading and writing to the register file in one clock cycle.
 //------------------------------------------------------------------------------
 
 module register_file #( 
-    parameter       INIT_FILE   = "")(   // Default to NULL (initalizes no values into memory)
+    parameter       INIT_FILE   = "")(   // Default to NULL (inits no values into memory)
     input   wire                i_CLK,
     input   wire                i_Reset,
     // From Control Store:
     input   wire                i_LD_REG,
     // From Register Muxs
-    input   wire    [2: 0]      i_DR_Addr,      // Desintation Register Address
+    input   wire    [2: 0]      i_DR_Addr,      // Destination Register Address
     input   wire    [2: 0]      i_SR1_Addr,     // Source Register #1 Address
     input   wire    [2: 0]      i_SR2_Addr,     // Source Register #2 Address
     // From the datapath Bus 
@@ -53,16 +54,5 @@ module register_file #(
         for (i = 0; i < NumElements; i = i + 1)
             memory[i] <= 16'b0;
     end 
-
-    //------------------------------------------------------------------------------
-    // Memory Initialization
-    // Description: Initializes the memory contents from a file specified by INIT_FILE.
-    //              This block uses the $readmemb system function to load binary data into 
-    //              the memory. Initialization is only performed if INIT_FILE is specified.
-    // Note: This is a rare case where inital blocks work in synthesizable verilog.
-    //------------------------------------------------------------------------------
-    // initial if (INIT_FILE) begin
-    //     $readmemb(INIT_FILE, memory);
-    // end
 
 endmodule

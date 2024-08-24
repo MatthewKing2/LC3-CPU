@@ -1,9 +1,8 @@
 
 //------------------------------------------------------------------------------
 // Module: processing_unit
-// Descirption: Imliments the register file, ALU, and coresponding MUXs 
-// Note: reg file is currently clked, may want to test w/o a clko_bus
-// Note: The output to the bus is gated by the top mod 
+// Description: Implements the register file, ALU, and MUXs that control register
+//              file inputs and outputs, and what two operands the ALU operates on.
 //------------------------------------------------------------------------------
 
 
@@ -77,7 +76,7 @@ module processing_unit (
     // SubModule Instantiations
     //-------------------------------------------------------
 
-    wire [15:0] w_SR1_Out; // Conects SR1 Out (from reg file) to ALU
+    wire [15:0] w_SR1_Out; // Connects SR1 Out (from reg file) to ALU
     assign o_SR1_Out = w_SR1_Out;   // SR1 Out is also used by Adder Module
 
     register_file #(.INIT_FILE())
@@ -85,9 +84,9 @@ module processing_unit (
         .i_CLK(i_CLK),
         .i_Reset(i_Reset),
         .i_LD_REG(i_LD_REG),
-        .i_DR_Addr(w_DRMUX_Out),      // Desintation Register Address
-        .i_SR1_Addr(w_SR1MUX_Out),     // Source Register #1 Address
-        .i_SR2_Addr(i_IR_2_0),     // Source Register #2 Address
+        .i_DR_Addr(w_DRMUX_Out),    // Destination Register Address
+        .i_SR1_Addr(w_SR1MUX_Out),  // Source Register #1 Address
+        .i_SR2_Addr(i_IR_2_0),      // Source Register #2 Address
         .i_bus(i_bus),
         .o_SR1(w_SR1_Out),
         .o_SR2(w_SR2_Out)
@@ -95,9 +94,9 @@ module processing_unit (
 
     alu alu_module(
         .i_ALUK(i_ALUK),
-        .i_SR2_Out(w_SR2MUX_Out),       // sr2 mux's output
-        .i_RegFile_Out(w_SR1_Out),   // Register File's Output 
-        .o_ToBus(o_ToBus)         // Output (goes to bus)
+        .i_SR2_Out(w_SR2MUX_Out),   // sr2 mux's output
+        .i_RegFile_Out(w_SR1_Out),  // Register File's Output 
+        .o_ToBus(o_ToBus)           // Output (goes to bus)
     );
 
 

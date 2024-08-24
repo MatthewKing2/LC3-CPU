@@ -2,6 +2,8 @@
 //------------------------------------------------------------------------------
 // Module: Adder Muxs
 // Logic: Combinational (not clocked)
+// Description: Calculating PC Offsets and Base Registers Offsets for either the
+//              Memory Address Register (MAR) or Program Counter (PC)
 //------------------------------------------------------------------------------
 
 module adder_muxs ( 
@@ -12,7 +14,7 @@ module adder_muxs (
     input   wire    [10:0]     i_IR_10_0,
     input   wire    [15:0]     i_PC,
     input   wire    [15:0]     i_SR1_Out,
-    // Ouptput to Bus
+    // Outputs to Bus
     output  wire    [15:0]      o_AdderMuxs
     );
 
@@ -49,7 +51,6 @@ module adder_muxs (
                                 (i_Addr2MuxControl == PCoffset9)    ? w_IR_8_0_SEXT : 
                                 (i_Addr2MuxControl == PCoffset11)   ? w_IR_10_0_SEXT : 
                                 16'hFFFF; // Never reached
-
     // ----------------------------------------------------
 
 

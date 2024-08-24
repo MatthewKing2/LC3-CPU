@@ -1,11 +1,17 @@
 
 //------------------------------------------------------------------------------
 // Module: control_store
+// Description: Special memory that stores microinstructions, each consisting of 
+//              control signals needed to manage the data path and "create" the 
+//              states of the Finite State Machine. There are 64 total states and
+//              52 control signals per state. 10 control signals are used to 
+//              determine the next state and 42 are used in the datapath to
+//              implement the state's behavior.
+// Note: Not all states have been implemented yet.
 //------------------------------------------------------------------------------
 
 module control_store #( 
     parameter       INIT_FILE   = "controlSingalGeneration/output.txt", 
-    // parameter       INIT_FILE   = "", 
     parameter       AddrBusSize = 6,
     parameter       NumElements = 64,
     parameter       ElementSize = 52)(   
@@ -20,7 +26,7 @@ module control_store #(
     //              element width. The synthesizer assumes the use of block RAM based 
     //              on this declaration. The array is defined with a size of NumElements
     //              and each element is ElementSize bits wide.
-    // Note: This delcaration notation does not use 2^AddrBusSize to determine the
+    // Note: This declaration notation does not use 2^AddrBusSize to determine the
     //       number of elements. You must specific the exact number of elements.
     //------------------------------------------------------------------------------
     reg [ElementSize-1: 0] memory [NumElements];
@@ -43,7 +49,7 @@ module control_store #(
     // Description: Initializes the memory contents from a file specified by INIT_FILE.
     //              This block uses the $readmemb system function to load binary data into 
     //              the memory. Initialization is only performed if INIT_FILE is specified.
-    // Note: This is a rare case where inital blocks work in synthesizable verilog.
+    // Note: This is a rare case where initial blocks work in synthesizable Verilog.
     //------------------------------------------------------------------------------
     initial if (INIT_FILE) begin
         $readmemb(INIT_FILE, memory);
