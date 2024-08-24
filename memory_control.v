@@ -1,4 +1,13 @@
 
+//------------------------------------------------------------------------------
+// Module: Memory Control
+// Description: Controls this the Memory that stores both instructions and data. 
+//              Memory is accessed by using the Memory Address Register (MAR) to 
+//              specify the location and the Memory Data Register (MDR) to either 
+//              retrieve data from or store data to that location, depending on 
+//              whether a load or store operation is being performed.
+//------------------------------------------------------------------------------
+
 module memory_control (
     input wire i_CLK, 
 
@@ -8,7 +17,7 @@ module memory_control (
     input wire          i_RW,
     input wire          i_MIO_EN,
 
-    // From Datapath: 
+    // From Data Path: 
     input wire  [15:0]  i_Bus,
 
     // Output 
@@ -16,7 +25,7 @@ module memory_control (
     output wire         o_Ready_Bit
     );
 
-    // Output of memeory wire
+    // Output of Memory wire
     wire [15:0] w_Memory_Out;
 
     // MDR and MAR Registers

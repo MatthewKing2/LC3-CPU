@@ -1,7 +1,10 @@
 
 //------------------------------------------------------------------------------
 // Module: microsequencer
-// Logic: Combinational (not clocked, execpt for BEN register)
+// Logic: Combinational and Clocked 
+// Description: Responsible for determining the address of the next microinstruction 
+//              in the Control Store, effectively controlling the sequence of states 
+//              in the state machine. 
 //------------------------------------------------------------------------------
 
 module microsequencer ( 
@@ -19,12 +22,12 @@ module microsequencer (
     input   wire    [2: 0]      i_NZP,
     input   wire                i_ACV,
     input   wire                i_PSR_15,
-    // From Interupt Control:
+    // From Interrupt Control:
     input   wire                i_INT,
     output  wire     [5: 0]      o_AddressNextState);
 
 
-    // Different MUX select line values for Microsequncer 
+    // Different MUX select line values for Microsequencer 
     parameter ACV   = 3'b110;
     parameter INT   = 3'b101;
     parameter PSR15 = 3'b100;
@@ -45,7 +48,7 @@ module microsequencer (
     assign w_BEN_Reg = r_BEN;
 
 
-    // The Actual Microsequncer (big fancy mux)
+    // The Actual Microsequencer (big fancy mux)
     // ---------------------------------------------------------------
     assign o_AddressNextState = (i_Reset)                   ?   16'h0012 :
                                 (i_IRD)                     ?   {2'b00, i_IR_15_9[6:3]} :

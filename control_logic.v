@@ -2,9 +2,9 @@
 //------------------------------------------------------------------------------
 // Module: Control Logic
 // Logic: Clocked and Combinational
-// Note: Module encasulates all control logic. This includes both the control 
-//       store and the microsequencer modules. This is essentially a pretty 
-//       wrapper on those modules.
+// Description: Module encapsulates all control logic. This includes both the control 
+//              store and the Microsequencer modules. This is essentially a pretty 
+//              wrapper on those modules to output each state's control signals.
 //------------------------------------------------------------------------------
 
 module control_logic ( 
@@ -14,15 +14,13 @@ module control_logic (
     input   wire                            i_Ready_Bit, 
     input   wire    [2:0]                   i_NZP,
     input   wire                            i_Reset,
-    // Note: Missing Interupt, Prioirty, and Privilege inputs 
 
-    // Control Singal Outputs
+    // Control Signals Outputs
     // -------------------------------------------------------
     // Load Registers (datapath and register file)
     output  wire    o_LD_MAR, 
     output  wire    o_LD_MDR, 
     output  wire    o_LD_IR,    
-//  output  wire    o_LD_BEN,       // BEN is intenral
     output  wire    o_LD_REG,       // This is reg file
     output  wire    o_LD_CC,        // I called this NZP reg
     output  wire    o_LD_PC,        
@@ -58,16 +56,16 @@ module control_logic (
     // ALU Control 
     output  wire    [1:0]   o_ALUK, 
 
-    // Memeory Control 
+    // Memory Control 
     output  wire    o_MIO_EN, 
     output  wire    o_R_W, 
 
-    // Priviledge Control
+    // Privilege Control
     output  wire    o_Set_Priv          // Not in use yet
     );
 
 
-    // Impliment Sub-Modules 
+    // Implement Sub-Modules 
     // ---------------------------------------
     wire [51:0] w_current_state;
     wire [5: 0] w_next_state_address;
@@ -81,7 +79,7 @@ module control_logic (
         .i_IRD(w_IRD),
         .i_LD_BEN(w_LD_BEN),
         // From Data path:
-        .i_R_Bit(i_Ready_Bit),  // Read memeory
+        .i_R_Bit(i_Ready_Bit),  // Read memory
         .i_IR_15_9(i_IR[15:9]), // 16 way branch
         .i_NZP(i_NZP),
         .i_ACV(),               // Not in use yet
@@ -103,7 +101,7 @@ module control_logic (
     // Output Assignments based on current state
     // ----------------------------------------------------
     
-    // Control Singals for Microsequncer 
+    // Control Signals for Microsequencer 
     wire            w_IRD       = w_current_state[51];
     wire    [2:0]   w_COND      = w_current_state[50:48];
     wire    [5:0]   w_J_Field   = w_current_state[47:42];
@@ -148,11 +146,11 @@ module control_logic (
     // ALU Control 
     assign o_ALUK      = w_current_state[4:3];
 
-    // Memeory Control 
+    // Memory Control 
     assign o_MIO_EN    = w_current_state[2];
     assign o_R_W       = w_current_state[1];
 
-    // Priviledge Control
+    // Privilege Control
     assign o_Set_Priv  = w_current_state[0];
 
 

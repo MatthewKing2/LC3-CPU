@@ -2,17 +2,12 @@
 //------------------------------------------------------------------------------
 // Module: Mar Mux
 // Logic: Combinational (not clocked)
-// Explanation from textbook: 
-    // 5.6.1.5 The MARMUX
-    // As you know, memory is accessed by supplying the address to the MAR. The
-    // MARMUX controls which of two sources will supply the MAR with the appropriate address during the execution of a load, a store, or a TRAP instruction. The
-    // right input to the MARMUX is obtained by adding either the incremented PC or
-    // a base register to zero or a literal value supplied by the IR. Whether the PC or a
-    // base register and what literal value depends on which opcode is being processed.
-    // The control signal ADDR1MUX specifies the PC or base register. The control
-    // signal ADDR2MUX specifies which of four values is to be added. The left input
-    // to MARMUX provides the zero-extended trapvector, which is needed to invoke
-    // service calls, and will be discussed in detail in Chapter 9.
+// Description: Multiplexer that selects the source of the address to be loaded 
+//              into the Memory Address Register (MAR) during the execution of 
+//              load, store, or TRAP instructions. It chooses between an address 
+//              derived from the Program Counter (PC) or a base register, and a 
+//              zero-extended trap vector for service calls, depending on the 
+//              specific instruction being executed.
 //------------------------------------------------------------------------------
 
 module mar_mux ( 
@@ -21,7 +16,7 @@ module mar_mux (
     // From Data Path:
     input   wire    [7: 0]      i_IR_7_0,
     input   wire    [15:0]      i_Address,
-    // Ouptput to Bus
+    // Output to Bus
     output  wire    [15:0]      o_MarMux
     );
 

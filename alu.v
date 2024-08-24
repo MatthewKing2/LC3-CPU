@@ -2,6 +2,10 @@
 //------------------------------------------------------------------------------
 // Module: alu
 // Logic: Combinational (not clocked)
+// Description: Performing arithmetic and logic operations on two inputs, so the
+//              result can be stored in a register and its condition codes (negative, 
+//              zero, or positive) determined. Inputs are come from registers or 
+//              an immediate value based on the instruction register (IR).
 //------------------------------------------------------------------------------
 
 module alu (

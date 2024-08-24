@@ -8,12 +8,12 @@
 //------------------------------------------------------------------------------
 
 module memory #( 
-    parameter       INIT_FILE   = "",   // Default to NULL (initalizes no values into memory)
+    parameter       INIT_FILE   = "",   // Default to NULL (inits no values into memory)
     parameter       AddrBusSize = 9,    
     parameter       NumElements = 512,  
     parameter       ElementSize = 8)(   
     input   wire                            i_CLK,
-    // Enable Singals
+    // Enable Signals
     input   wire                            i_write_en,
     input   wire                            i_read_en,
     // Addresses
@@ -21,7 +21,7 @@ module memory #(
     input   wire    [AddrBusSize-1: 0]      i_read_addr,
     // Data
     input   wire    [ElementSize-1: 0]      i_write_data,
-    output  reg                             o_Ready_Bit, // Set when sucessfuly read / written
+    output  reg                             o_Ready_Bit, // Set when successfully read / written
     output  reg     [ElementSize-1: 0]      o_read_data);
 
     //------------------------------------------------------------------------------
