@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 module control_store #( 
-    parameter       INIT_FILE   = "controlSingalGeneration/output.txt", 
+    parameter       INIT_FILE   = "../ControlSignals/output.txt", 
     parameter       AddrBusSize = 6,
     parameter       NumElements = 64,
     parameter       ElementSize = 52)(   

@@ -1,5 +1,6 @@
 @3000
-x3037	// ST R0, SSaveR0   // Start of Sort Subroutine
+// Start of Sort Subroutine
+x3037	// ST R0, SSaveR0   
 x3237	// ST R1, SSaveR1
 x3437	// ST R2, SSaveR2
 x3637	// ST R3, SSaveR3
@@ -55,20 +56,21 @@ x2807	// LD R4, SSaveR4
 x2A07	// LD R5, SSaveR5
 x2C07	// LD R6, SSaveR6
 xF025	// HALT
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
 x3200   // Address of Base Address of Array = Address 150
 x3201   // Address of Number of elements in Array = Address 151 
 x3100   // StoreX
 x3101   // StoreY
 x8000   // MaxNeg
 x3102   // CompRet
-x3236   // ST R0, x2F47 // Start of Compare Subroutine
+// Start of Compare Subroutine
+x3236   // ST R0, x2F47
 x3436	// ST R2, SaveR2
 x3636	// ST R3, SaveR3
 x5260	// AND R1, R1, #0
@@ -129,34 +131,34 @@ x0009	// SaveR3
 x3100	// Address of X
 x3101	// Address of Y 
 x3102	// Address of ST_ADR 
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
-x0000	// NOP
 x0000
-@3100   // Where X,Y, Who is bigger is stored
-x0000	
-x0000	
-x0000	
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+x0000
+@3100   // Data to exchange between subroutines 
+x0000	// X
+x0000	// Y
+x0000	// X > Y ?
 @3200
 x3250   // Base Address of Array
 x000A	// Number of elements in Array
 @3250
-x0002   // 10 Element Array
+x0002   // 10 Element Array's values
 x0001
 x0004
 x0003

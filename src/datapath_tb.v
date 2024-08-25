@@ -54,7 +54,7 @@ module datapath_tb();
             $dumpvars(0, UUT.ProcessingUnit.register_file_module.memory[idx]);
 
         // Dump Array that gets sorted by Assembly Program 
-        for (idx = 12880; idx < (12880+15); idx = idx + 1) 
+        for (idx = 12880; idx < (12880+10); idx = idx + 1) 
             $dumpvars(0, UUT.MemoryControler.Memory.memory[idx]);
 
         // Wait for sim to complete
