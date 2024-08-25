@@ -57,7 +57,7 @@ module memory_control (
 
     // Init Sub Module 
     memory #(
-        .INIT_FILE("programs/ActualAssembly/HexInstructions.txt"),
+        .INIT_FILE("../Programs/AssemblySortingAlgorithm.mem"),
         .AddrBusSize(16),    
         .NumElements(65535),  
         .ElementSize(16)
