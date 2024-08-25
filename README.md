@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project is an accurate implementation of the Little Computer 3 (LC-3) Instruction Set Architecture (ISA) and Microarchitecture, as described in the textbook *"Introduction to Computing Systems: From Bits and Gates to C/C++ & Beyond, Third Edition"* by Yale Patt. To create this project I primarily used the LC-3 Finite State Machine (FSM) and Datapath I learned about in Dr. Patt's ECE 306 class at UT Austin. This Verilog implementation demonstrates the core aspects and instructions of the LC-3 CPU design, excluding interrupt and exception control (which will hopefully be added in the future). This project also demonstrates how LC-3 Assembly programs can be run on the LC-3 through an example sorting algorithm.
+This project is an accurate implementation of the Little Computer 3 (LC-3) Instruction Set Architecture (ISA) and Microarchitecture, as described in the textbook *Introduction to Computing Systems: From Bits and Gates to C/C++ & Beyond, Third Edition* by Yale Patt. To create this project I primarily used the LC-3 Finite State Machine (FSM) and Datapath I learned about in Dr. Patt's ECE 306 class at UT Austin. This Verilog implementation demonstrates the core aspects and instructions of the LC-3 CPU design, excluding interrupt and exception control (which will hopefully be added in the future). This project also demonstrates how LC-3 Assembly programs can be run on the LC-3 through an example sorting algorithm.
 
 ## Features
 
@@ -23,37 +23,28 @@ Memory values being sorted into descending order:
 
 A store (STR) instruction moving two number, 6 and 3, into their sorted order:
 ![Image of store instruction iterating through its FSM states](docs/LC3-STR-States-WaveformView.png)
-> Red traces are memory values. Additionally, by referring to the [LC-3's Finite State Machine](docs/LC3_State_Machine.pdf), it can be seen that that the `o_addressNextState` transitions from state 18, 33, 28, 30, 32, 7, 23, and finally to 16, are the correct state transitions to execute the STR instruction.
+> Red traces are memory values, and the yellow trace, `o_addressNextState`, is the next state of the FSM to be executed. Additionally, by referring to the [LC-3's FSM](docs/LC3_State_Machine.pdf), it can be seen that the state transitions from 18, 33, 28, 30, 32, 7, 23, and to 16 are the correct state transitions to execute the STR instruction.
 
-## Challenges and Learning
-
-### Challenges
+## Challenges
 
 **1. Understanding the Microarchitecture:**
    The most significant challenge of this project was fully understanding the LC-3 microarchitecture, particularly the interaction between the control store and the register file. This was a gap in my prior knowledge from Dr. Patt’s ECE 306 class, so I spent time understanding how clocked components like the control store and register file synchronized to perform operations within a single clock cycle. A key realization was that while writes to the register file are clocked, reads are not, allowing for asynchronous access. This insight was crucial for implementing instructions such as `R1 <- R1 + 1` in one clock cycle.
 
 **2. Correct Implementation of the LC-3:**
-   Implementing the LC-3 required breaking down the datapath into submodules, testing them individually, and then integrating them. This process, while conceptually straightforward, was a valuable exercise in developing testbenches and debugging with waveform viewers. It highlighted the importance of careful module integration and systematic verification.
-
-### Learning Outcomes
-
-Through this project, I gained a deeper understanding of CPU microarchitecture design and testing. Specifically:
-
-- **Microarchitecture Integration:** I learned the importance of synchronization between clocked and unclocked components, and the need for precise timing interaction between different parts of the datapath to achieve the desired result.
-  
-- **Verilog Design and Debugging:** Breaking down the datapath into submodules and testing them individually honed my skills in Verilog design and debugging. I developed a more systematic approach to verifying complex systems and gained proficiency in using waveform viewers to diagnose and resolve issues.
-
-Overall, this project enhanced my ability to implement and debug intricate computer architecture systems, providing a solid foundation for future work in hardware design and verification.
+   Implementing the LC-3 required breaking down the datapath into submodules, testing them individually, and then integrating them. This process, while conceptually straightforward, was a valuable exercise in developing testbenches and debugging with waveform viewers.
 
 ## Project Structure
 
-- **`src/`**: Verilog source files.
+- **`src/`**:
   - **`datapath.v`**: Top Module that implements all submodules of the LC-3.
   - **`datapath_tb.v`**: Simple Testbench used to simulate the LC-3 processing of an LC-3 Assembly program.
   - **`control_logic.v`**: Handles the control signals and state transitions based on the LC-3 ISA.
-- **`Programs/`**: Assembly programs.
+- **`ControlSignals/`**:
+  - **`ControlStore.csv`**: Contains control signals (in an easy to edit format) for each state implemented thus far.
+  - **`convert.py`**: Converts `ControlStore.csv` into binary format so it can be put into the Control Store's memory.
+- **`Programs/`**:
   - **`AssemblySortingAlgorithm.mem`**: Simple algorithm to sort 2's compliment values in descending order.
-  - **`SimpleAssembler.py`**: Rudimentary Assembler that I used to convert LC-3 Assembly to their binary values during testing.
+  - **`SimpleAssembler.py`**: Rudimentary assembler that I used to convert during testing.
 - **`sim/`**: Old testbenches used to verify the functionality of submodules.
 - **`docs/`**: Relevant documentation and images (ISA, Data Path, FSM).
 
@@ -88,7 +79,7 @@ In the future, I plan to extend this project by incorporating interrupt and exce
 
 ## References
 
-- Patt, Yale N., and Patel, Sanjay J. *"Introduction to Computing Systems: From Bits & Gates to C/C++ and Beyond."* McGraw-Hill Education, 3rd edition.
+- Patt, Yale N., and Patel, Sanjay J. *Introduction to Computing Systems: From Bits & Gates to C/C++ and Beyond.* McGraw-Hill Education, 3rd edition.
 
 ## Contact Information
 
